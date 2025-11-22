@@ -1,114 +1,98 @@
-#include<stdio.h>
-#include<string.h>
-#include<conio.h>
+#include <stdio.h>
+#include <string.h>
+struct Customer {
+    char name[50];
+    char product[50];
+    float price;
+    int qty;
+    float discount;
+    float gst;
+};
+int main() {
+    struct Customer c[100]; 
+    int choice, index = 0;   
+    while (1) {
+        printf("\n Customer Management System \n");
+        printf("1. Add Customer\n");
+        printf("2. Update Customer\n");
+        printf("3. Delete Customer\n");
+        printf("4. Show All Customers\n");
+        printf("5. Exit\n");
+        printf("Enter Choice: ");
+        scanf("%d", &choice);
+        if (choice == 1) {
+            printf("\nEnter Customer Name: ");
+            scanf("%s", c[index].name);
+            printf("Enter Product Name: ");
+            scanf("%s", c[index].product);
+            printf("Enter Price: ");
+            scanf("%f", &c[index].price);
+            printf("Enter Quantity: ");
+            scanf("%d", &c[index].qty);
+            printf("Enter Discount %%: ");
+            scanf("%f", &c[index].discount);
+            printf("Enter GST %%: ");
+            scanf("%f", &c[index].gst);
+            printf("\nCustomer Added Successfully!\n");
+            index++;
+        }
+        else if (choice == 2) {
+            int id;
+            printf("Enter Customer Number to Update (0 to %d): ", index - 1);
+            scanf("%d", &id);
 
-struct Customer{
-	int id;        // stores id
-	char name[50]; // store name
-	double gross;  // store gross profit of customer systme
-    int discount;  // stores a discount
-    char prod_name; // store a product name
-}c1;
-
-void display(){
-	int id;
-	FILE *fp,*fp2;
-	struct c1;
-	
-	fopen("employee.txt",fp);
-    fopen("emp.txt",fp2);
-	
-	printf("\nEnter your id to display or display all data of employee..");
-	fwrite(&fp, sizeof(fp),wprintf("1","sarjan","1200","5","Usb type C cable"),fp);
-    // i take dummmy data of mine
-    /*
-    id - 1
-    name - sarjan
-    gross profit - 1200
-    discount - 5%
-    product name - Usb type C cable
-    */
-
-    // remove("employee.txt");
-    // rename("emp.txt",fp2);
-    fclose(fp);
-    fclose(fp2); // this is used for closing file
+            if (id >= 0 && id < index) {
+                printf("\nEnter New Customer Name: ");
+                scanf("%s", c[id].name);
+                printf("Enter New Product Name: ");
+                scanf("%s", c[id].product);
+                printf("Enter New Price: ");
+                scanf("%f", &c[id].price);
+                printf("Enter New Quantity: ");
+                scanf("%d", &c[id].qty);
+                printf("Enter New Discount %%: ");
+                scanf("%f", &c[id].discount);
+                printf("Enter New GST %%: ");
+                scanf("%f", &c[id].gst);
+                printf("Customer Updated!\n");
+            } else {
+                printf("Invalid Customer Number!\n");
+            }
 }
+        else if (choice == 3) {
+            int id;
+            printf("Enter Customer Number to Delete (0 to %d): ", index - 1);
+            scanf("%d", &id);
 
-void search(){
-    int id,n,found=0;
-    FILE *fp,*fp2;
-    struct c1;
-
-    fopen("employee.txt",fp);
-    fopen("emp.txt",fp2);
-
-    printf("\nEnter your id to search customer data...");
-    // fread(&fp, sizeof(fp),1,fp);
-    scanf("%d",&n);
-
-
-    if(c1.id == n ){
-        found=1;
-    } else {
-        found=0;
+            if (id >= 0 && id < index) {
+                for (int i = id; i < index - 1; i++) {
+                    c[i] = c[i + 1];
+                }
+                index--;
+                printf("Customer Deleted!\n");
+            } else {
+                printf("Invalid Number!\n");
+            }
+        }
+        else if (choice == 4) {
+            printf("\n----- All Customers -----\n");
+            for (int i = 0; i < index; i++) {
+                printf("\nCustomer %d\n", i);
+                printf("Name     : %s\n", c[i].name);
+                printf("Product  : %s\n", c[i].product);
+                printf("Price    : %.2f\n", c[i].price);
+                printf("Qty      : %d\n", c[i].qty);
+                printf("Discount : %.2f%%\n", c[i].discount);
+                printf("GST      : %.2f%%\n", c[i].gst);
+            }
+        }
+        else if (choice == 5) {
+            printf("Thank You!\n");
+            break;
+        }
+        else {
+            printf("Invalid Choice! Try Again.\n");
+        }
     }
-
-    if(!found){
-        printf("\n Please check your id ");
-    } else{
-        printf("\nId found Successfully...");
-    }
-}
-
-void endata(){
-    // this function is used for add data of customer 
-    int id;
-    FILE *fp,*fp2;
-    struct c1;
-    char name[50],prod_name[50];
-
-    fopen("employee.txt",fp);
-    fopen("emp.txt",fp2);
-
-    printf("\nEnter your id...");
-    scanf("%d",&c1.id);
-    printf("\nEnter your name:");
-    scanf("%c",c1.name);
-    printf("\nEnter your profit for gross");
-    scanf("%d",&c1.gross);
-    printf("\nEnter your product name: ");
-    scanf("%s",c1.prod_name);
-
-    fclose(fp);
-    fclose(fp2);
-}
-
-void main(){
-    int no;
-    struct c1;
-	clrscr();
-	
-    printf("1. Enter your data\n2. Enter your id to search employee\n3. Display all data of employee\n4. exit");
-    printf("\nEnter our choice from below:");
-    scanf("%d",&no);
-
-    switch(no){
-        case 1:
-            endata();
-            break;
-        case 2:
-            search();
-            break;
-        case 3: 
-            display();
-            break;
-        case 4:
-            // exit(0);
-            break;
-        default:
-            printf("\nEnter valid choice..");
-    }
-    // return 0;
-	getch();
+    return 0;
 }
